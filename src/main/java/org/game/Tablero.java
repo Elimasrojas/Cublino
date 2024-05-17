@@ -58,4 +58,29 @@ public class Tablero {
             }
         }
     }
+
+    public boolean validarMovimiento(String jugadorActual, int origenX,
+                                     int origenY, int destinoX, int destinoY) {
+        Dado dado = celdas[origenX][origenY];
+        if (dado != null && dado.getColor().equals(jugadorActual)) {
+            // Verificar si la celda de destino está vacía
+            if (celdas[destinoX][destinoY] == null) {
+                return true;
+            } else {
+                // Verificar si el dado de destino es del mismo jugador
+                Dado dadoDestino = celdas[destinoX][destinoY];
+                if (dadoDestino.getColor().equals(jugadorActual)) {
+                    // Verificar si el destino está al lado o enfrente y está vacío
+                    int diferenciaX = Math.abs(destinoX - origenX);
+                    int diferenciaY = Math.abs(destinoY - origenY);
+                    if ((diferenciaX == 1 && diferenciaY == 0) || (diferenciaX == 0 && diferenciaY == 1)) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+
 }

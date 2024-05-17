@@ -9,6 +9,7 @@ public class JuegoPanel extends JPanel {
     private Tablero tablero;
     private final int CELDA_TAMANO = 50; // Ajustar para el tamaño del tablero 7x7
     private int origenX, origenY, destinoX, destinoY;
+    private String jugadorActual = "rojo"; // Empezamos con el jugador rojo
 
     public JuegoPanel() {
         tablero = new Tablero(7, 7);
@@ -25,10 +26,12 @@ public class JuegoPanel extends JPanel {
                 destinoX = e.getX() / CELDA_TAMANO;
                 destinoY = e.getY() / CELDA_TAMANO;
 
-                // Verificar si el movimiento es horizontal o vertical y permitir solo un paso a la vez
-                if ((Math.abs(origenX - destinoX) == 1 && origenY == destinoY) ||
-                        (Math.abs(origenY - destinoY) == 1 && origenX == destinoX)) {
+                // Verificar si el movimiento es válido para el jugador actual
+                if (tablero.validarMovimiento(jugadorActual, origenX, origenY, destinoX, destinoY)) {
                     tablero.moverDado(origenX, origenY, destinoX, destinoY);
+
+                    // Cambiar al siguiente jugador
+                    jugadorActual = (jugadorActual.equals("rojo")) ? "azul" : "rojo";
                 }
                 repaint();
             }
